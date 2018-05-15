@@ -1,0 +1,8 @@
+sudo python /home/nvidia/tensorflow/tensorflow/examples/image_retraining/retrain.py 
+   -- bottleneck_dir=/home/nvidia/work/lane/inception/bottlenecks 
+   -- how_many_training_steps 2000   
+   -- model_dir=/home/nvidia/work/lane/inception 
+   -- output_graph=/home/nvidia/work/lane/retrained_graph.pb 
+   -- output_labels=/home/nvidia/work/lane/retrained_labels.txt
+   -- image_dir=/home/nvidia/work/lane/photos
+   -- sum m aries_dir=$HOME/work/log 

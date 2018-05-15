@@ -1,0 +1,56 @@
+#include <wiringPi.h>
+#include <softPwm.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <time.h>
+#include <curses.h>
+
+#define servo 1
+#define pwm 24
+
+int main (void)
+{
+	int key;
+	int high;
+	int dir;
+	int i;
+	initscr();
+	printf ("Raspberry Pi wiringPi PWM test program\n") ;
+	high=900;
+	dir=750;
+	if (wiringPiSetup () == -1)
+	exit (1) ;
+	pinMode (servo, PWM_OUTPUT);	
+	pinMode (pwm, PWM_OUTPUT);	
+	for(;;)
+	{	
+		key = getch();
+		if(key =='a' || key == 'd' || key =='w' || key == 's' || key == 'z' || key == 'x'){ 	
+			switch(key) {
+				case 'a'  : if(dir>510) { dir-=20; } break;
+				case 'd'  : if(dir<990) { dir+=20; } break;
+				case 'w'  : if(high<1100){ high+=5; } break;
+				case 's'  : if(high>500){ high-=5; } break;
+				case 'z'  : dir=750; break; //servo alignment
+				case 'x'  : high=900; break;
+	    		}
+		}
+		for(i=0; i<100; ++i){
+			pwmToneWrite(servo,500); //servo
+			pwmSetMode((float)(PWM_MODE_MS));
+			pwmWrite(servo, dir);
+			pwmToneWrite(pwm,45); //45 dc 50 servo
+			pwmSetMode((float)(PWM_MODE_MS));
+			pwmWrite(pwm, high);
+		}
+
+ 
+
+	}
+
+	endwin();
+
+	return 0 ;
+
+}
